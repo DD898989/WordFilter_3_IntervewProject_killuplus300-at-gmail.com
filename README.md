@@ -16,7 +16,7 @@ Analysis
 ##### filter cases　: 216000
 ##### x-axis　　　: input length(chars)
 ##### y-axis　　　: average finish time(second)
-![](https://github.com/DD898989/Pictures/blob/master/001.png)<br/>
+![](https://github.com/DD898989/Pictures/blob/master/001.PNG)<br/>
 As expetected, Time ∝ Input<br/>
 <br/>
 <br/>
