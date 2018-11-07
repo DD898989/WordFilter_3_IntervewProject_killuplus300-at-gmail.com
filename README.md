@@ -30,7 +30,10 @@ Advantage:<br/>
 `wstring input            =     L”disagree”;` <br/>
 (replace “agree”      ->)`   L”dis****”;`<br/>
 (replace “disagree” ->)`   L”dis****”;`<br/>
-
+```diff
++ this will be highlighted in green
+- this will be highlighted in red
+```
 `wstring input           =      L”disagree”;` <br/>
 (mark “agree”          ->)`   L”disagree”;`<br/>
 (mark “disagree”     ->)`   L”disagree”;`<br/>
