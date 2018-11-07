@@ -90,6 +90,8 @@ public :
 					parentX2_child = parent_child;
 				if(generation>=1)
 					parent_child = 1;//right
+				
+				current = current->right;
 			}
 			else
 			{
@@ -99,14 +101,7 @@ public :
 					parentX2_child = parent_child;
 				if(generation>=1)
 					parent_child = 2;//left
-			}
-
-			if(res > 0)
-			{
-				current = current->right;
-			}
-			else
-			{
+				
 				current = current->left;
 			}
 		}
