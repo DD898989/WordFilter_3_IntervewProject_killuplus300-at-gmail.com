@@ -2,8 +2,33 @@
 
 
 
+Dictionary Tree
+--
+![](https://github.com/DD898989/Pictures/blob/master/1107%202333.PNG)<br/>
+##### from Kelvin Lau   https://www.raywenderlich.com/1053-swift-algorithm-club-swift-tree-data-structure
+
+Fast Way To Make Balanced Binary Tree
+--
+![](https://github.com/DD898989/Pictures/blob/master/1107%20003.PNG)<br/>
 
 
+Not Handle String Itself, Handle The Array
+--
+wstring input = L” A long, long time ago in a land far away”;<br/>
+int* ptr_input = new int[Input.size()]();<br/>
+
+Advantage:<br/>
+1. Array can be handled by many threads in the same time.<br/>
+2. Better word filter:<br/>
+
+wstring input            =     L”disagree”; <br/>
+(replace “agree”      ->)   L”dis****”;<br/>
+(replace “disagree” ->)   L”dis****”;<br/>
+
+wstring input           =      L”disagree”; <br/>
+(mark “agree”          ->)   L”disagree”;<br/>
+(mark “disagree”     ->)   L”disagree”;<br/>
+(replace mark          ->)    L”*******”;<br/>
 
 
 
@@ -32,7 +57,7 @@ since the test cases is an dictionary, this is a reasonable result<br/>
 <br/>
 <br/>
 <br/>
-# Time Complexity:
-## O(N)
+### Time Complexity:
+#### O(N)
 Let N = Input length<br/>
 filter cases not relevant in this algorithm<br/>
