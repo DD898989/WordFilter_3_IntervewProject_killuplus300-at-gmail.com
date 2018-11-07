@@ -20,7 +20,26 @@ Fast Way To Make Balanced Binary Tree
 
 Run Length Encoding
 --
-https://github.com/DD898989/Pictures/blob/master/11072342.PNG
+![](https://github.com/DD898989/Pictures/blob/master/11072342.PNG)<br/>
+<br/>
+<br/>
+<br/>
+
+Not Handle String Itself, Handle The Array
+--
+BST.Insert(L”APPLE”);<br/>
+BST.Insert(L”apple”);<br/>
+BST.Insert(L”Apple”);<br/>
+int strcasecmp(wchar_t *s1, wchar_t *s2) <br/> 
+{  <br/>
+	int c1, c2;  <br/>
+	do {  <br/>
+		c1 = *s1++; <br/>
+		c2 = *s2++; <br/>
+	} while(c1 == c2 && c1 != 0); <br/>
+	return c1 - c2;  <br/>
+} <br/>
+
 <br/>
 <br/>
 <br/>
