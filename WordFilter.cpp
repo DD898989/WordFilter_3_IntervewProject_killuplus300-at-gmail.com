@@ -1,6 +1,8 @@
 #include "stdafx.h" 
 #include <string>
+#include <list>
 #include <vector>
+#include <deque>
 #include <fstream>
 #include <windows.h>
 #include <codecvt>
@@ -13,6 +15,8 @@ vector<wstring>  m_vFilteredWord;
 vector<string>  m_vCmd;
 int m_nMaxBadWordLen = 0;
 static const int TREE_NUMBER = 10;
+
+
 static const int SORTING_COUNT = 10;
 //---------------------------------------------------------------------------------------------------
 inline int strcasecmp(const wchar_t *s1, const wchar_t *s2)  
@@ -46,35 +50,39 @@ public :
 	}
 	void Insert(wchar_t *word) 
 	{
-		struct TreeNode *parent= NULL, *current = NULL, *newnode = NULL;
+		struct TreeNode *parent         = NULL;
+		struct TreeNode *current = NULL, *newnode = NULL;
+
+		int res = 0;
+		int generation=0;
 
 		if (!root) 
 		{
 			root = createNode(word);
 			return;
 		}
-		
-		int res = 0;
+
 		current = root;
 		while(current != NULL)
 		{
+			generation++;
 			res = strcasecmp(word, current->word);
-
 			if (res == 0) 
 				return;
-
 			parent = current;
-
 			if(res > 0)
+			{
 				current = current->right;
+			}
 			else
+			{
 				current = current->left;
+			}
 		}
 
 		newnode = createNode(word);
 		res > 0 ? (parent->right = newnode) : (parent->left = newnode);
 	}
-
 	bool Find(wchar_t *str) 
 	{
 		struct TreeNode *temp = NULL;
@@ -83,8 +91,9 @@ public :
 		while (temp) 
 		{
 			if ((res = strcasecmp(temp->word, str)) == 0) 
+			{
 				return true;
-
+			}
 			temp = (res > 0) ? temp->left : temp->right;
 		}
 		return false;
@@ -154,7 +163,7 @@ void ReadBadWordDic(string sDicFile)
 	m_vFilteredWord.clear();
 
 	const locale empty_locale = locale::empty();
-	typedef codecvt_utf8<wchar_t> converter_type;	
+	typedef codecvt_utf8<wchar_t> converter_type;
 	const converter_type* converter = new converter_type;
 	const locale utf8_locale = locale(empty_locale, converter);
 	wifstream stream((sDicFile));
@@ -164,36 +173,36 @@ void ReadBadWordDic(string sDicFile)
 	ifstream inFile(sDicFile); 
 	int countline = count(istreambuf_iterator<char>(inFile), 
 		istreambuf_iterator<char>(), '\n');
-	m_vFilteredWord.resize(countline*3);
-
 	clock_t t1 = clock();		/*///////////////////////////////////////////*/
-	
-	int index =-1;
+	static int i;
+	i=0;
 	while (getline(stream, line))
 	{
-		index++;
-
 		if(m_nMaxBadWordLen<line.length())
 			m_nMaxBadWordLen = line.length();
 
+		i++;
+		
 		if(line.length()==0)
 			continue;
 
-		if((countline-index)%5000==0)
-			cout<<"Reading bad word dictionary, remaining:"<<countline-index<<endl;
+		if((countline-i)%5000==0)
+			cout<<"Reading bad word dictionary, remaining:"<<countline-i<<endl;
+		wchar_t *cstr;
 
-		for(int i=0;i<line.length();i++) //APPLE
+		
+		for(int i=0;i<line.length();i++)
 			line[i]= towupper(line[i]);
-		m_vFilteredWord[index]=line;
+		m_vFilteredWord.push_back(line);
 
-		for(int i=0;i<line.length();i++) //apple
+		for(int i=0;i<line.length();i++)
 			line[i]= towlower(line[i]);
 		if(line!=m_vFilteredWord.back())
-			m_vFilteredWord[index]=line;
+			m_vFilteredWord.push_back(line);
 
-		line[0]= towupper(line[0]);     //Apple
+		line[0]= towupper(line[0]);
 		if(line!=m_vFilteredWord.back())
-			m_vFilteredWord[index]=line;
+			m_vFilteredWord.push_back(line);
 
 	}
 	clock_t t2 = clock();   	/*///////////////////////////////////////////*/  printf("%s:%f\n", "Reading Time: ",(t2-t1)/(double)(CLOCKS_PER_SEC));
@@ -206,34 +215,32 @@ void ReadBadWordDic(string sDicFile)
 	int len0 = m_vFilteredWord.size();
 	for(int k=2;k<m_vFilteredWord.size();k*=2)
 	{
+		//odd number from back
 		int len = m_vFilteredWord.size();
 		for(int j=k-1;j>0;j-=2)
 		{
 			int index = (double)len*((double)j/(double)k);
 			if(index+1>m_vFilteredWord.size())
 				break;
-			
-			if(m_vFilteredWord.back()==L"")
-				continue;
 
 			Insert(m_vFilteredWord[index]);
-			m_vFilteredWord[index]=L"";
+			m_vFilteredWord[index]=L"@";
 
-			if(--len0%5000==0)
+			if(--len0%100==0)
 				cout<<"Sorting bad word dictionary, remaining:"<<len0<<endl;
 		}
 	}
 	
 	while(m_vFilteredWord.size()!=0)
 	{
-		if(m_vFilteredWord.back()==L"")
+		if(m_vFilteredWord.back()==L"@")
 		{
 			m_vFilteredWord.pop_back();
 			continue;
 		}
 		Insert(m_vFilteredWord.back());
 		m_vFilteredWord.pop_back();
-		if(--len0%5000==0)
+		if(--len0%100==0)
 			cout<<"Sorting bad word dictionary, remaining: "<<len0<<endl;
 	}
 	t2 = clock();   	/*///////////////////////////////////////////*/  printf("%s:%f\n", "Sorting Time: ",(t2-t1)/(double)(CLOCKS_PER_SEC));
