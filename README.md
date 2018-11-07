@@ -3,10 +3,6 @@
 <br/>
 <br/>
 
-
-2014, The year of [Blue](#)
-
-
 Dictionary Tree
 --
 ![](https://github.com/DD898989/Pictures/blob/master/1107%202333.PNG)<br/>
@@ -36,7 +32,7 @@ Advantage:<br/>
 (replace “disagree” ->)`   L”dis****”;`<br/>
 <br/>
 `wstring input           =      L”disagree”;` <br/>
-(mark “agree”          ->)`   L”disagree”;`<br/>
+(mark “agree”          ->)`   L”dis[agree](#)”;`<br/>
 (mark “disagree”     ->)`   L”disagree”;`<br/>
 (replace mark          ->)`    L”*******”;`<br/>
 <br/>
