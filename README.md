@@ -18,6 +18,19 @@ Fast Way To Make Balanced Binary Tree
 <br/>
 <br/>
 
+Search Logic
+--
+### 7 Chars Searcher
+
+![](https://github.com/DD898989/Pictures/blob/master/7.png)<br/>
+
+### 3 Chars Searcher
+
+![](https://github.com/DD898989/Pictures/blob/master/3.png)<br/>
+<br/>
+<br/>
+<br/>
+
 Run Length Encoding
 --
 ![](https://github.com/DD898989/Pictures/blob/master/1107%202348.PNG)<br/>
@@ -27,18 +40,18 @@ Run Length Encoding
 
 Insert All Possible Case Form Than Skip Comparing Case In Function
 --
-BST.Insert(L”APPLE”);<br/>
-BST.Insert(L”apple”);<br/>
-BST.Insert(L”Apple”);<br/>
-int strcasecmp(wchar_t *s1, wchar_t *s2) <br/> 
-{  <br/>
-	int c1, c2;  <br/>
-	do {  <br/>
-		c1 = *s1++; //tolower(*s1++);<br/>
-		c2 = *s2++; //tolower(*s2++);<br/>
-	} while(c1 == c2 && c1 != 0); <br/>
-	return c1 - c2;  <br/>
-} <br/>
+`BST.Insert(L”APPLE”);`<br/>
+`BST.Insert(L”apple”);`<br/>
+`BST.Insert(L”Apple”);`<br/>
+`int strcasecmp(wchar_t *s1, wchar_t *s2)` <br/> 
+`{  `<br/>
+`	int c1, c2;  `<br/>
+`	do {  `<br/>
+`		c1 = *s1++; //tolower(*s1++);`<br/>
+`		c2 = *s2++; //tolower(*s2++);`<br/>
+`	} while(c1 == c2 && c1 != 0); `<br/>
+`	return c1 - c2;  `<br/>
+`} `<br/>
 
 <br/>
 <br/>
