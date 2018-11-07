@@ -20,12 +20,12 @@ Fast Way To Make Balanced Binary Tree
 
 Run Length Encoding
 --
-![](https://github.com/DD898989/Pictures/blob/master/11072342.PNG)<br/>
+![](https://github.com/DD898989/Pictures/blob/master/1107%202348.PNG)<br/>
 <br/>
 <br/>
 <br/>
 
-Not Handle String Itself, Handle The Array
+Insert All Possible Case Form Than Skip Comparing Case In Function
 --
 BST.Insert(L”APPLE”);<br/>
 BST.Insert(L”apple”);<br/>
@@ -34,8 +34,8 @@ int strcasecmp(wchar_t *s1, wchar_t *s2) <br/>
 {  <br/>
 	int c1, c2;  <br/>
 	do {  <br/>
-		c1 = *s1++; <br/>
-		c2 = *s2++; <br/>
+		c1 = *s1++; //tolower(*s1++);<br/>
+		c2 = *s2++; //tolower(*s2++);<br/>
 	} while(c1 == c2 && c1 != 0); <br/>
 	return c1 - c2;  <br/>
 } <br/>
