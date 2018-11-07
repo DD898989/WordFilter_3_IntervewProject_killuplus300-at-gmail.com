@@ -1,4 +1,4 @@
-#include "stdafx.h" 
+//#include "stdafx.h" 
 #include <string>
 #include <vector>
 #include <fstream>
@@ -9,11 +9,10 @@
 #include <iostream>
 //---------------------------------------------------------------------------------------------------
 using namespace std;
-vector<wstring>  m_vFilteredWord;
 vector<string>  m_vCmd;
 int m_nMaxBadWordLen = 0;
-static const int TREE_NUMBER = 1;
 static const int SORTING_COUNT = 10;
+vector<wstring>  m_vFilteredWord;
 //---------------------------------------------------------------------------------------------------
 inline int strcasecmp(const wchar_t *s1, const wchar_t *s2)  
 {  
@@ -53,7 +52,7 @@ public :
 			root = createNode(word);
 			return;
 		}
-		
+
 		int res = 0;
 		current = root;
 		while(current != NULL)
@@ -91,7 +90,7 @@ public :
 	}
 };
 //---------------------------------------------------------------------------------------------------
-DictionaryBinaryTree DBT[TREE_NUMBER];
+DictionaryBinaryTree DBT;
 //---------------------------------------------------------------------------------------------------
 void AddCmd()
 {
@@ -118,34 +117,18 @@ wstring Read(string filename)
 	return wss.str();
 }
 //---------------------------------------------------------------------------------------------------
-inline int GetKeyFromWS(wstring ws)
-{
-	if(TREE_NUMBER!=1)
-	{
-		int len=ws.length();
-		int KeySum=0;
-		for(int i=0;i<len;i++)
-			KeySum+=ws[i];
-		KeySum = KeySum%TREE_NUMBER;
-		return KeySum;
-	}
-	return 0;
-}
-//---------------------------------------------------------------------------------------------------
 bool IsBadWord(wstring ws)
 {
-	int KeySum = GetKeyFromWS(ws);
 	wchar_t *str = new wchar_t[ws.length() + 1];	  wcscpy(str, ws.c_str());
-	bool bResult = DBT[KeySum].Find(str); 
+	bool bResult = DBT.Find(str); 
 	delete str;
 	return bResult;
 }
 //---------------------------------------------------------------------------------------------------
 void  Insert(wstring ws)
 {
-	int KeySum=GetKeyFromWS(ws);
 	wchar_t *str; str = new wchar_t[ws.length() + 1];	wcscpy(str, ws.c_str());
-	DBT[KeySum].Insert(str);
+	DBT.Insert(str);
 	delete str;
 }
 //---------------------------------------------------------------------------------------------------
@@ -176,7 +159,7 @@ void ReadBadWordDic(string sDicFile)
 
 		if(line.length()==0)
 			continue;
-		
+
 		count++;
 		if((countline-count)%5000==0)
 			cout<<"Reading bad word dictionary, remaining:"<<countline-count<<endl;
@@ -201,7 +184,6 @@ void ReadBadWordDic(string sDicFile)
 	t1 = clock();		/*///////////////////////////////////////////*/
 	m_vFilteredWord.erase( unique( m_vFilteredWord.begin(), m_vFilteredWord.end() ), m_vFilteredWord.end() );
 	sort(m_vFilteredWord.begin(), m_vFilteredWord.end());
-	
 	int len0 = m_vFilteredWord.size();
 	for(int k=2;k<m_vFilteredWord.size();k*=2)
 	{
@@ -217,24 +199,26 @@ void ReadBadWordDic(string sDicFile)
 
 			Insert(m_vFilteredWord[index]);
 			m_vFilteredWord[index]=L"";
-
+			
 			if(--len0%5000==0)
 				cout<<"Sorting bad word dictionary, remaining:"<<len0<<endl;
 		}
 	}
 
-	while(m_vFilteredWord.size()!=0)
+	vector<wstring>::iterator it;
+	for(it=m_vFilteredWord.begin() ; it!=m_vFilteredWord.end() ; it++)
 	{
-		if(m_vFilteredWord.back()==L"")
-		{
-			m_vFilteredWord.pop_back();
+		if(*it==L"")
 			continue;
-		}
-		Insert(m_vFilteredWord.back());
-		m_vFilteredWord.pop_back();
+
+		Insert(*it);
+
 		if(--len0%5000==0)
 			cout<<"Sorting bad word dictionary, remaining: "<<len0<<endl;
 	}
+
+	m_vFilteredWord.clear();
+
 	t2 = clock();   	/*///////////////////////////////////////////*/  printf("%s:%f\n", "Sorting Time: ",(t2-t1)/(double)(CLOCKS_PER_SEC));
 }
 //---------------------------------------------------------------------------------------------------
@@ -366,7 +350,7 @@ int main()
 		if(bRun)
 		{
 			bRun = false;
-			wstring wsInput = Read(sInputFile); // Read(sInputFile);//
+			wstring wsInput;// = Read(sInputFile); 
 			cout<<endl<<"請輸入過濾句子:"<<endl;
 			getline(wcin, wsInput);
 
@@ -494,7 +478,7 @@ int main()
 
 			delete ptr_nFilterRecord;
 			delete ptr_nFilterRecordForMark;
-			/*計時結束*/  QueryPerformanceCounter(&nEndTime);    timeT+=(double)(nEndTime.QuadPart-nBeginTime.QuadPart)/(double)nFreq.QuadPart;count++;if(count%1==0){ printf("\nReplacing time:%f\n",timeT/count); /*timeT=0;count=0;*/}
+			/*計時結束*/  QueryPerformanceCounter(&nEndTime);    timeT+=(double)(nEndTime.QuadPart-nBeginTime.QuadPart)/(double)nFreq.QuadPart;count++;if(count%1==0){ printf("\nReplacing time:%f\n",timeT/count); timeT=0;count=0;}
 
 			wcout<<endl<<L"過濾後:"<<endl<<wsOutput<<endl;;
 
