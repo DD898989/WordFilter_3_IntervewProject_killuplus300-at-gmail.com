@@ -2,6 +2,7 @@
 #include <string>
 #include <list>
 #include <vector>
+#include <deque>
 #include <fstream>
 #include <windows.h>
 #include <codecvt>
@@ -10,7 +11,7 @@
 #include <iostream>
 //---------------------------------------------------------------------------------------------------
 using namespace std;
-list<wstring>  m_lFilteredWord;
+vector<wstring>  m_vFilteredWord;
 vector<string>  m_vCmd;
 int m_nMaxBadWordLen = 0;
 static const int TREE_NUMBER = 10;
@@ -159,7 +160,7 @@ void  Insert(wstring ws)
 //---------------------------------------------------------------------------------------------------
 void ReadBadWordDic(string sDicFile)
 {
-	m_lFilteredWord.clear();
+	m_vFilteredWord.clear();
 
 	const locale empty_locale = locale::empty();
 	typedef codecvt_utf8<wchar_t> converter_type;
@@ -192,50 +193,57 @@ void ReadBadWordDic(string sDicFile)
 		
 		for(int i=0;i<line.length();i++)
 			line[i]= towupper(line[i]);
-		m_lFilteredWord.push_back(line);
+		m_vFilteredWord.push_back(line);
 
 		for(int i=0;i<line.length();i++)
 			line[i]= towlower(line[i]);
-		if(line!=m_lFilteredWord.back())
-			m_lFilteredWord.push_back(line);
+		if(line!=m_vFilteredWord.back())
+			m_vFilteredWord.push_back(line);
 
 		line[0]= towupper(line[0]);
-		if(line!=m_lFilteredWord.back())
-			m_lFilteredWord.push_back(line);
+		if(line!=m_vFilteredWord.back())
+			m_vFilteredWord.push_back(line);
 
 	}
 	clock_t t2 = clock();   	/*///////////////////////////////////////////*/  printf("%s:%f\n", "Reading Time: ",(t2-t1)/(double)(CLOCKS_PER_SEC));
 
-	m_lFilteredWord.sort();
-	m_lFilteredWord.erase( unique( m_lFilteredWord.begin(), m_lFilteredWord.end() ), m_lFilteredWord.end() );
+
+	t1 = clock();		/*///////////////////////////////////////////*/
+	sort(m_vFilteredWord.begin(), m_vFilteredWord.end());
+	m_vFilteredWord.erase( unique( m_vFilteredWord.begin(), m_vFilteredWord.end() ), m_vFilteredWord.end() );
 	
-	int len0 = m_lFilteredWord.size();
-	for(int k=2;k<m_lFilteredWord.size();k*=2)
+	int len0 = m_vFilteredWord.size();
+	for(int k=2;k<m_vFilteredWord.size();k*=2)
 	{
 		//odd number from back
-		int len = m_lFilteredWord.size();
+		int len = m_vFilteredWord.size();
 		for(int j=k-1;j>0;j-=2)
 		{
 			int index = (double)len*((double)j/(double)k);
-			if(index+1>m_lFilteredWord.size())
+			if(index+1>m_vFilteredWord.size())
 				break;
-			list<wstring>::iterator itr1 = m_lFilteredWord.begin();
-			advance(itr1, index); 
-			Insert(*itr1);
-			m_lFilteredWord.erase(itr1);
+
+			Insert(m_vFilteredWord[index]);
+			m_vFilteredWord[index]=L"@";
+
 			if(--len0%100==0)
 				cout<<"Sorting bad word dictionary, remaining:"<<len0<<endl;
 		}
 	}
 	
-	while(m_lFilteredWord.size()!=0)
+	while(m_vFilteredWord.size()!=0)
 	{
-		Insert(m_lFilteredWord.front());
-		m_lFilteredWord.erase(m_lFilteredWord.begin());
+		if(m_vFilteredWord.back()==L"@")
+		{
+			m_vFilteredWord.pop_back();
+			continue;
+		}
+		Insert(m_vFilteredWord.back());
+		m_vFilteredWord.pop_back();
 		if(--len0%100==0)
 			cout<<"Sorting bad word dictionary, remaining: "<<len0<<endl;
 	}
-
+	t2 = clock();   	/*///////////////////////////////////////////*/  printf("%s:%f\n", "Sorting Time: ",(t2-t1)/(double)(CLOCKS_PER_SEC));
 }
 //---------------------------------------------------------------------------------------------------
 wstring wcinRegMatch(wstring sMatch)
@@ -310,7 +318,7 @@ int main()
 	cout<<"字典路徑:"<<sDicFile<<endl;
 
 	cout<<"\n確認 字典路徑 檔案後按下enter繼續\n";
-	//system("pause");
+	system("pause");
 
 	ReadBadWordDic(sDicFile);
 
