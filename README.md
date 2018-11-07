@@ -2,6 +2,7 @@
 <br/>
 <br/>
 <br/>
+
 Dictionary Tree
 --
 ![](https://github.com/DD898989/Pictures/blob/master/1107%202333.PNG)<br/>
@@ -9,12 +10,14 @@ Dictionary Tree
 <br/>
 <br/>
 <br/>
+
 Fast Way To Make Balanced Binary Tree
 --
 ![](https://github.com/DD898989/Pictures/blob/master/1107%20003.PNG)<br/>
 <br/>
 <br/>
 <br/>
+
 Not Handle String Itself, Handle The Array
 --
 `wstring input = L” A long, long time ago in a land far away”;`<br/>
@@ -35,6 +38,7 @@ Advantage:<br/>
 <br/>
 <br/>
 <br/>
+
 Analysis
 --
 ##### filter cases　: 18500
