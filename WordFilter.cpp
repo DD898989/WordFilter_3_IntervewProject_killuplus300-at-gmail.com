@@ -110,7 +110,7 @@ public :
 		res > 0 ? (parent->right = newnode) : (parent->left = newnode);
 
 		newnode->color=true;
-		if(parent==root || parentX2==root)
+		if(parent==root)
 		{
 			newnode->color=false;
 			return;
