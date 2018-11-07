@@ -1,4 +1,4 @@
-﻿#include "stdafx.h" 
+#include "stdafx.h" 
 #include <string>
 #include <vector>
 #include <fstream>
@@ -110,11 +110,12 @@ public :
 		res > 0 ? (parent->right = newnode) : (parent->left = newnode);
 
 		newnode->color=true;
-		if(parent==root)
+		if(parent==root || parentX2==root)
 		{
 			newnode->color=false;
 			return;
 		}
+
 
 		if(parent->color=false)
 		{
