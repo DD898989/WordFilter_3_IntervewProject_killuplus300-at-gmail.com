@@ -2,7 +2,7 @@
 <br/>
 <br/>
 <br/>
-Some Markdown text with <span style="color:blue">some *blue* text</span>.
+# 2014, The year of [Blue](#)
 Dictionary Tree
 --
 ![](https://github.com/DD898989/Pictures/blob/master/1107%202333.PNG)<br/>
