@@ -28,13 +28,13 @@ Advantage:<br/>
 2. Better word filter:<br/>
 
 `wstring input            =     L”disagree”;` <br/>
-`(replace “agree”      ->)   L”dis****”;`<br/>
-`(replace “disagree” ->)   L”dis****”;`<br/>
+(replace “agree”      ->)`   L”dis****”;`<br/>
+(replace “disagree” ->)`   L”dis****”;`<br/>
 
 `wstring input           =      L”disagree”;` <br/>
-`(mark “agree”          ->)   L”disagree”;`<br/>
-`(mark “disagree”     ->)   L”disagree”;`<br/>
-`(replace mark          ->)    L”*******”;`<br/>
+(mark “agree”          ->)`   L”disagree”;`<br/>
+(mark “disagree”     ->)`   L”disagree”;`<br/>
+(replace mark          ->)`    L”*******”;`<br/>
 <br/>
 <br/>
 <br/>
