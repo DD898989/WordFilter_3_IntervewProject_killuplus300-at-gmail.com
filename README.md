@@ -18,6 +18,27 @@ Fast Way To Make Balanced Binary Tree
 <br/>
 <br/>
 
+Not Handle String Itself, Handle The Array
+--
+`wstring input = L” A long, long time ago in a land far away”;`<br/>
+`int* ptr_input = new int[Input.size()]();`<br/>
+
+Advantage:<br/>
+1. Array can be handled by many threads in the same time.<br/>
+2. Better word filter:<br/>
+
+`wstring input            =     L”disagree”;` <br/>
+(replace “agree”      ->)`   L”dis****”;`<br/>
+(replace “disagree” ->)`   L”dis****”;`<br/>
+
+`wstring input           =      L”disagree”;` <br/>
+(mark “agree”          ->)`   L”disagree”;`<br/>
+(mark “disagree”     ->)`   L”disagree”;`<br/>
+(replace mark          ->)`    L”*******”;`<br/>
+<br/>
+<br/>
+<br/>
+
 Search Logic
 --
 ### 7 Chars Searcher
@@ -34,6 +55,7 @@ Search Logic
 Run Length Encoding
 --
 ![](https://github.com/DD898989/Pictures/blob/master/1107%202348.PNG)<br/>
+####Replacing from behind make output correct
 <br/>
 <br/>
 <br/>
@@ -53,27 +75,6 @@ Insert All Possible Case Form Than Skip Comparing Case In Function
 `	return c1 - c2;  `<br/>
 `} `<br/>
 
-<br/>
-<br/>
-<br/>
-
-Not Handle String Itself, Handle The Array
---
-`wstring input = L” A long, long time ago in a land far away”;`<br/>
-`int* ptr_input = new int[Input.size()]();`<br/>
-
-Advantage:<br/>
-1. Array can be handled by many threads in the same time.<br/>
-2. Better word filter:<br/>
-
-`wstring input            =     L”disagree”;` <br/>
-(replace “agree”      ->)`   L”dis****”;`<br/>
-(replace “disagree” ->)`   L”dis****”;`<br/>
-
-`wstring input           =      L”disagree”;` <br/>
-(mark “agree”          ->)`   L”disagree”;`<br/>
-(mark “disagree”     ->)`   L”disagree”;`<br/>
-(replace mark          ->)`    L”*******”;`<br/>
 <br/>
 <br/>
 <br/>
