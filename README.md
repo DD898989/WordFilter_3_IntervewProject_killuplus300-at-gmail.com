@@ -2,7 +2,7 @@
 <br/>
 <br/>
 <br/>
-
+Some Markdown text with <span style="color:blue">some *blue* text</span>.
 Dictionary Tree
 --
 ![](https://github.com/DD898989/Pictures/blob/master/1107%202333.PNG)<br/>
@@ -26,14 +26,11 @@ Not Handle String Itself, Handle The Array
 Advantage:<br/>
 1. Array can be handled by many threads in the same time.<br/>
 2. Better word filter:<br/>
-
+<br/>
 `wstring input            =     L”disagree”;` <br/>
 (replace “agree”      ->)`   L”dis****”;`<br/>
 (replace “disagree” ->)`   L”dis****”;`<br/>
-```diff
-+ this will be highlighted in green
-- this will be highlighted in red
-```
+<br/>
 `wstring input           =      L”disagree”;` <br/>
 (mark “agree”          ->)`   L”disagree”;`<br/>
 (mark “disagree”     ->)`   L”disagree”;`<br/>
