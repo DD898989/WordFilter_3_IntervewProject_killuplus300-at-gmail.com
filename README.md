@@ -44,3 +44,6 @@ since the test cases is an dictionary, this is a reasonable result<br/>
 <br/>
 <br/>
 <br/>
+# Time Complexity:
+## O(N)
+Let M = filter cases ,  N = Input length<br/>
