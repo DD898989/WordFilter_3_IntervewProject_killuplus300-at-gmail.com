@@ -55,12 +55,12 @@ Search Logic
 Run Length Encoding
 --
 ![](https://github.com/DD898989/Pictures/blob/master/1107%202348.PNG)<br/>
-####Replacing from behind make output correct
+#### Replacing from behind make output correct
 <br/>
 <br/>
 <br/>
 
-Insert All Possible Case Form Than Skip Comparing Case In Function
+Insert All Possible Case Forms 
 --
 `BST.Insert(L”APPLE”);`<br/>
 `BST.Insert(L”apple”);`<br/>
@@ -74,7 +74,7 @@ Insert All Possible Case Form Than Skip Comparing Case In Function
 `	} while(c1 == c2 && c1 != 0); `<br/>
 `	return c1 - c2;  `<br/>
 `} `<br/>
-
+#### Insert all possible case forms than skip comparing case in function will double the search speed
 <br/>
 <br/>
 <br/>
