@@ -1,17 +1,20 @@
 # http-WordFilter_3_IntervewProject_killuplus300-at-gmail.com
-
-
-
+<br/>
+<br/>
+<br/>
 Dictionary Tree
 --
 ![](https://github.com/DD898989/Pictures/blob/master/1107%202333.PNG)<br/>
 ##### from Kelvin Lau   https://www.raywenderlich.com/1053-swift-algorithm-club-swift-tree-data-structure
-
+<br/>
+<br/>
+<br/>
 Fast Way To Make Balanced Binary Tree
 --
 ![](https://github.com/DD898989/Pictures/blob/master/1107%20003.PNG)<br/>
-
-
+<br/>
+<br/>
+<br/>
 Not Handle String Itself, Handle The Array
 --
 `wstring input = L” A long, long time ago in a land far away”;`<br/>
@@ -29,12 +32,9 @@ Advantage:<br/>
 `(mark “agree”          ->)   L”disagree”;`<br/>
 `(mark “disagree”     ->)   L”disagree”;`<br/>
 `(replace mark          ->)    L”*******”;`<br/>
-
-
-
-
-
-
+<br/>
+<br/>
+<br/>
 Analysis
 --
 ##### filter cases　: 18500
