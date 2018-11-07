@@ -26,11 +26,11 @@ Not Handle String Itself, Handle The Array
 Advantage:<br/>
 1. Array can be handled by many threads in the same time.<br/>
 2. Better word filter:<br/>
-<br/>
+  
 wstring input            =     L”disagree”; <br/>
 (replace “agree”      ->)   L”dis****”;<br/>
 (replace “disagree” ->)   L”dis****”;<br/>
-<br/>
+  
 wstring input           =      L”disagree”; <br/>
 (mark “agree”          ->)   L”dis[agree](#)”;<br/>
 (mark “disagree”     ->)   L”[disagree](#)”;<br/>
