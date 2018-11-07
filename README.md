@@ -46,4 +46,6 @@ since the test cases is an dictionary, this is a reasonable result<br/>
 <br/>
 # Time Complexity:
 ## O(N)
-Let M = filter cases ,  N = Input length<br/>
+Let N = Input length<br/>
+tree number not a simple funcion but leads to constant when larger<br/>
+filter cases not relevant in this algorithm<br/>
