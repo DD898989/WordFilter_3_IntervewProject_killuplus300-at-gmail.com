@@ -18,6 +18,13 @@ Fast Way To Make Balanced Binary Tree
 <br/>
 <br/>
 
+Run Length Encoding
+--
+https://github.com/DD898989/Pictures/blob/master/11072342.PNG
+<br/>
+<br/>
+<br/>
+
 Not Handle String Itself, Handle The Array
 --
 `wstring input = L” A long, long time ago in a land far away”;`<br/>
