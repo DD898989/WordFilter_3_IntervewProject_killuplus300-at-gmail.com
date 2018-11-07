@@ -12,7 +12,7 @@ using namespace std;
 vector<wstring>  m_vFilteredWord;
 vector<string>  m_vCmd;
 int m_nMaxBadWordLen = 0;
-static const int TREE_NUMBER = 10;
+static const int TREE_NUMBER = 1;
 static const int SORTING_COUNT = 10;
 //---------------------------------------------------------------------------------------------------
 inline int strcasecmp(const wchar_t *s1, const wchar_t *s2)  
