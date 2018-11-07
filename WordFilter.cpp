@@ -1,5 +1,6 @@
 #include "stdafx.h" 
 #include <string>
+#include <list>
 #include <vector>
 #include <fstream>
 #include <windows.h>
@@ -9,9 +10,10 @@
 #include <iostream>
 //---------------------------------------------------------------------------------------------------
 using namespace std;
+list<wstring>  m_lFilteredWord;
 vector<string>  m_vCmd;
 int m_nMaxBadWordLen = 0;
-static const int TREE_NUMBER = 1;
+static const int TREE_NUMBER = 10;
 
 
 static const int SORTING_COUNT = 10;
@@ -28,7 +30,6 @@ inline int strcasecmp(const wchar_t *s1, const wchar_t *s2)
 //---------------------------------------------------------------------------------------------------
 struct TreeNode 
 {
-	bool color;//true for red, false for black
 	wchar_t word[128];
 	struct TreeNode *left, *right;
 };
@@ -44,18 +45,11 @@ public :
 		newnode = (struct TreeNode *)malloc(sizeof(struct TreeNode));
 		wcscpy(newnode->word, word);
 		newnode->left = newnode->right = NULL;
-		newnode->color=true;
 		return newnode;
 	}
 	void Insert(wchar_t *word) 
 	{
-		struct TreeNode *parentX3       = NULL;
-		int              parentX3_child = -1;
-		struct TreeNode *parentX2       = NULL;
-		int              parentX2_child = -1;
 		struct TreeNode *parent         = NULL;
-		int              parent_child   = -1;
-
 		struct TreeNode *current = NULL, *newnode = NULL;
 
 		int res = 0;
@@ -64,7 +58,6 @@ public :
 		if (!root) 
 		{
 			root = createNode(word);
-			root->color=false;
 			return;
 		}
 
@@ -75,70 +68,19 @@ public :
 			res = strcasecmp(word, current->word);
 			if (res == 0) 
 				return;
-
-			if(generation>=3)
-				parentX3 = parentX2;
-			if(generation>=2)
-				parentX2 = parent;
 			parent = current;
-
 			if(res > 0)
 			{
-				if(generation>=3)
-					parentX3_child = parentX2_child;
-				if(generation>=2)
-					parentX2_child = parent_child;
-				if(generation>=1)
-					parent_child = 1;//right
-				
 				current = current->right;
 			}
 			else
 			{
-				if(generation>=3)
-					parentX3_child = parentX2_child;
-				if(generation>=2)
-					parentX2_child = parent_child;
-				if(generation>=1)
-					parent_child = 2;//left
-				
 				current = current->left;
 			}
 		}
 
 		newnode = createNode(word);
 		res > 0 ? (parent->right = newnode) : (parent->left = newnode);
-
-		newnode->color=true;
-		if(parent==root)
-		{
-			newnode->color=false;
-			return;
-		}
-
-
-		if(parent->color=false)
-		{
-			parent->color=true;
-			parentX2->color=false;
-			if(parentX3_child==1)
-			{
-				parentX3->right=parent;
-			}
-			else if(parentX3_child==2)
-			{
-				parentX3->left=parent;
-			}
-
-			if(res > 0)  
-			{
-				parent->left=parentX2;
-			}
-			else
-			{
-				parent->right=parentX2;
-			}
-		}
 	}
 	bool Find(wchar_t *str) 
 	{
@@ -217,6 +159,8 @@ void  Insert(wstring ws)
 //---------------------------------------------------------------------------------------------------
 void ReadBadWordDic(string sDicFile)
 {
+	m_lFilteredWord.clear();
+
 	const locale empty_locale = locale::empty();
 	typedef codecvt_utf8<wchar_t> converter_type;
 	const converter_type* converter = new converter_type;
@@ -237,30 +181,61 @@ void ReadBadWordDic(string sDicFile)
 			m_nMaxBadWordLen = line.length();
 
 		i++;
+		
+		if(line.length()==0)
+			continue;
 
 		if((countline-i)%5000==0)
 			cout<<"Reading bad word dictionary, remaining:"<<countline-i<<endl;
 		wchar_t *cstr;
 
+		
 		for(int i=0;i<line.length();i++)
 			line[i]= towupper(line[i]);
-
-		cstr = new wchar_t[line.length() + 1];	wcscpy(cstr, line.c_str());
-		Insert(cstr);  delete cstr;
+		m_lFilteredWord.push_back(line);
 
 		for(int i=0;i<line.length();i++)
 			line[i]= towlower(line[i]);
-
-		cstr = new wchar_t[line.length() + 1];	wcscpy(cstr, line.c_str());
-		Insert(cstr);  delete cstr;
+		if(line!=m_lFilteredWord.back())
+			m_lFilteredWord.push_back(line);
 
 		line[0]= towupper(line[0]);
-
-		cstr = new wchar_t[line.length() + 1];	wcscpy(cstr, line.c_str());
-		Insert(cstr);  delete cstr;
+		if(line!=m_lFilteredWord.back())
+			m_lFilteredWord.push_back(line);
 
 	}
 	clock_t t2 = clock();   	/*///////////////////////////////////////////*/  printf("%s:%f\n", "Reading Time: ",(t2-t1)/(double)(CLOCKS_PER_SEC));
+
+	m_lFilteredWord.sort();
+	m_lFilteredWord.erase( unique( m_lFilteredWord.begin(), m_lFilteredWord.end() ), m_lFilteredWord.end() );
+	
+	int len0 = m_lFilteredWord.size();
+	for(int k=2;k<m_lFilteredWord.size();k*=2)
+	{
+		//odd number from back
+		int len = m_lFilteredWord.size();
+		for(int j=k-1;j>0;j-=2)
+		{
+			int index = (double)len*((double)j/(double)k);
+			if(index+1>m_lFilteredWord.size())
+				break;
+			list<wstring>::iterator itr1 = m_lFilteredWord.begin();
+			advance(itr1, index); 
+			Insert(*itr1);
+			m_lFilteredWord.erase(itr1);
+			if(--len0%100==0)
+				cout<<"Sorting bad word dictionary, remaining:"<<len0<<endl;
+		}
+	}
+	
+	while(m_lFilteredWord.size()!=0)
+	{
+		Insert(m_lFilteredWord.front());
+		m_lFilteredWord.erase(m_lFilteredWord.begin());
+		if(--len0%100==0)
+			cout<<"Sorting bad word dictionary, remaining: "<<len0<<endl;
+	}
+
 }
 //---------------------------------------------------------------------------------------------------
 wstring wcinRegMatch(wstring sMatch)
