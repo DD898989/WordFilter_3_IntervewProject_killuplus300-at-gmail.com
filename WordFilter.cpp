@@ -157,9 +157,6 @@ void ReadBadWordDic(string sDicFile)
 		if(m_nMaxBadWordLen<line.length())
 			m_nMaxBadWordLen = line.length();
 
-		if(line.length()==0)
-			continue;
-
 		count++;
 		if((countline-count)%5000==0)
 			cout<<"Reading bad word dictionary, remaining:"<<countline-count<<endl;
